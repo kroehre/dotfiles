@@ -48,6 +48,40 @@ cdpath=(. ~ ~/src $SOURCE_DIR)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# gem_home
+if [[ -a /usr/local/opt/gem_home/share/gem_home/gem_home.sh ]]; then
+  source /usr/local/opt/gem_home/share/gem_home/gem_home.sh
+
+  # Automatically set local Gem Home directory
+  # when entering a directory that contains a Gemfile.
+  unset GEM_HOME_AUTO
+
+  function gem_home_auto() {
+    local dir="${PWD}/"
+
+    until [[ -z "$dir" ]]; do
+      dir="${dir%/*}"
+      if [[ -f "$dir/Gemfile" ]]; then
+        if [[ "$dir" == "$GEM_HOME_AUTO" ]]; then return
+        else
+          GEM_HOME_AUTO="$dir"
+          gem_home "$dir"
+          return $?
+        fi
+      fi
+    done
+
+    if [[ -n "$GEM_HOME_AUTO" ]]; then
+      gem_home -
+      unset GEM_HOME_AUTO
+    fi
+  }
+
+  if [[ ! "$preexec_functions" == *gem_home_auto* ]]; then
+    preexec_functions+=("gem_home_auto")
+  fi
+fi
+
 # import local zsh customizations, if present
 zrcl="$HOME/.zshrc.local"
 

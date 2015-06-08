@@ -51,6 +51,7 @@ get_bundle tpope vim-surround
 get_bundle tpope vim-tbone
 get_bundle tpope vim-unimpaired
 get_bundle tpope vim-vividchalk
+get_bundle tpope vim-projectionist
 get_bundle vim-scripts bufkill.vim
 get_bundle junegunn fzf
 get_bundle scrooloose nerdtree

@@ -9,7 +9,7 @@ fi
 if test ! $(which gem_home)
 then
   echo "  Installing gem_home for you."
-  brew install gem_home > /tmp/gem_home_install.log
+  brew install --HEAD https://raw.github.com/postmodern/gem_home/master/homebrew/gem_home.rb > /tmp/gem_home_install.log
 fi
 
 if test ! $(which ruby-install)

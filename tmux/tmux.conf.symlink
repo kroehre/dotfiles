@@ -27,6 +27,10 @@ bind Up resize-pane -Z
 unbind Down
 bind Down resize-pane -Z
 
+# Enable mouse support and scroll in copy-mode
+setw -g mouse on
+bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'copy-mode -e'"
+
 # Don't delay forever on escape!
 set -sg escape-time 0
 

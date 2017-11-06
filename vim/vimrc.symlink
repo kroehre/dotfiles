@@ -41,6 +41,7 @@ set number
 set background=dark
 
 map <C-n> :NERDTreeToggle<CR>
+map <C-m> :NERDTreeFind<CR>
 
 set backupdir=./.backup,~/tmp,.
 set directory=./.backup,~/tmp,.

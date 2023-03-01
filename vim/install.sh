@@ -9,7 +9,7 @@ get_bundle() {
     cd "$2"
     git pull --rebase
   else
-    git clone "git://github.com/$1/$2.git"
+    git clone "https://github.com/$1/$2.git"
   fi
   )
 }
@@ -55,5 +55,8 @@ get_bundle tpope vim-projectionist
 get_bundle vim-scripts bufkill.vim
 get_bundle junegunn fzf
 get_bundle scrooloose nerdtree
+get_bundle dracula vim
+get_bundle ngmy vim-rubocop
+get_bundle elixir-editors vim-elixir
 
 vim -c 'call pathogen#helptags()|q'

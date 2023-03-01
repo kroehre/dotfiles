@@ -22,7 +22,9 @@ br = branch
         add-untracked = !"git status --porcelain | awk '/\\?\\?/{ print $2 }' | xargs git add"
         unpulled = !"PROJ_BRANCH=$(git symbolic-ref HEAD | sed 's|refs/heads/||') && git fetch && git log HEAD..origin/$PROJ_BRANCH"
         unpushed = !"PROJ_BRANCH=$(git symbolic-ref HEAD | sed 's|refs/heads/||') && git log origin/$PROJ_BRANCH..HEAD"
-        wip = "!sh -c 'git add -A . && git status && git commit -m \"@wip [ci skip] $1\"' -"
+        wip = "!sh -c \"git add -A . && git status && git commit -am '[wip] [ci skip] $1'\" -"
+        fixup = "!sh -c \"git add -A . && git status && git commit -am '[fixup] $1'\" -"
+        squash = "!sh -c \"git add -A . && git status && git commit -am '[squash] $1'\" -"
 [branch]
         autosetuprebase = always
 [color]
@@ -45,5 +47,11 @@ br = branch
 	browser = open
 [include]
         path = ~/.gitconfig.local
-; [gpg]
-; 	program = gpg
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	name = Keith Roehrenbeck
+	email = kroehrenbeck@gmail.com

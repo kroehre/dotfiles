@@ -46,8 +46,8 @@ colorscheme dracula
 
 map <C-N> :NERDTreeFind<CR>
 
-set backupdir=./.backup,~/tmp,.
-set directory=./.backup,~/tmp,.
+set backupdir=~/.vimbackup,./.backup,~/tmp,.
+set directory=~/.vimbackup,./.backup,~/tmp,.
 
 " sourcing .vimrc.local should ALWAYS BE LAST
 if filereadable(expand('~/.vimrc.local'))

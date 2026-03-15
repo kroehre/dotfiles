@@ -15,14 +15,14 @@ This is a topic-based dotfiles repo. Each tool/topic gets its own directory (e.g
 
 - `script/bootstrap` — Main setup script. Creates symlinks, generates `~/.gitconfig.local`, runs installers.
 - `script/install` — Finds and runs all `install.sh` files.
-- `bin/dot` — Ongoing maintenance entry point. Runs OS defaults, homebrew, and vim bundle installs.
+- `bin/dot` — Ongoing maintenance entry point. Runs macOS defaults, homebrew, and neovim plugin installs.
 - `homebrew/install.sh` — Installs brews listed in the `BREWS` array.
 
 ## Style & Preferences
 
 - **Indentation:** 2 spaces (no tabs) for all config files and scripts.
 - **Shell:** zsh. Write shell-compatible code accordingly.
-- **Editor:** neovim/vim. Vim plugins are managed with Pathogen. Plugin config lives in `vim/vim.symlink/plugin/`.
+- **Editor:** neovim. Plugins are managed with vim-plug. Config lives in `nvim/init.vim`.
 - **Ruby tooling:** chruby for version management, ruby-install for installing rubies, gem_home for per-project gems.
 - **Tmux:** vi-mode keybindings, `Ctrl-z` prefix.
 

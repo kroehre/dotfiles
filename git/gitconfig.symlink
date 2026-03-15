@@ -30,7 +30,7 @@ br = branch
         ui = auto
 [core]
         excludesfile = ~/.gitignore
-        editor = vim
+        editor = nvim
         whitespace = warn
 [help]
         autocorrect = 10

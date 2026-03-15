@@ -1,5 +1,5 @@
 #!/bin/sh
 #
-# Sets OS X defaults by running $DOTHOME/osx/set-defaults.sh.
+# Sets macOS defaults by running $DOTHOME/macos/set-defaults.sh.
 
-exec $DOTHOME/osx/set-defaults.sh
+exec $DOTHOME/macos/set-defaults.sh

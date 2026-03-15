@@ -8,7 +8,8 @@ alias l0="ls -lh | awk '\$5 == 0'"
 alias ll="ls -lh"
 alias lla="ls -alh"
 alias lld="ls -lh | grep ^d"
-alias vi='vim'
+alias vi='nvim'
+alias vim='nvim'
 alias grep='grep --color=auto'
 alias pgrep='pgrep -Lif'
 

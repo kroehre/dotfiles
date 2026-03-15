@@ -1,5 +1,5 @@
 # default apps
 (( ${+PAGER} )) || export PAGER='less'
-(( ${+EDITOR} )) || export EDITOR='vim'
+(( ${+EDITOR} )) || export EDITOR='nvim'
 
-export PSQL_EDITOR='vim -c"set syntax=sql"'
+export PSQL_EDITOR='nvim -c"set syntax=sql"'

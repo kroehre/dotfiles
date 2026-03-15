@@ -1,14 +1,14 @@
 # Sets reasonable macOS defaults.
 #
 # Most of this is taken from:
-#   https://github.com/mathiasbynens/dotfiles/blob/master/.osx
+#   https://github.com/mathiasbynens/dotfiles/blob/master/.macos
 
 # ask for the administrator password upfront
 echo "We'll need admin permissions for some of these settings"
 echo ""
 sudo -v
 
-# keep-alive: update existing `sudo` time stamp until `.osx` has finished
+# keep-alive: update existing `sudo` time stamp until this script has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # Run the screensaver if we're in the bottom-left hot corner.

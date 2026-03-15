@@ -39,7 +39,7 @@ unsetopt nomatch
 cdpath=(. ~ ~/src $SOURCE_DIR)
 
 # chruby!
-# osx location
+# macOS (Homebrew) location
 BREW_PREFIX=$(brew --prefix)
 [[ ! -a $BREW_PREFIX/opt/chruby/share/chruby/chruby.sh ]] || source $BREW_PREFIX/opt/chruby/share/chruby/chruby.sh
 [[ ! -a $BREW_PREFIX/opt/chruby/share/chruby/auto.sh ]] || source $BREW_PREFIX/opt/chruby/share/chruby/auto.sh

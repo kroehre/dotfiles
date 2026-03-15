@@ -13,3 +13,9 @@ elif [ -L "$NVIM_CONFIG_DIR" ]; then
 else
   echo "  nvim config directory exists and is not a symlink, skipping"
 fi
+
+# Install vim-plug plugins
+if command -v nvim > /dev/null 2>&1; then
+  echo "  Installing neovim plugins"
+  nvim --headless +PlugInstall +qa 2>/dev/null
+fi

@@ -23,5 +23,5 @@ case $DISTRO in
     ;;
 esac
 
-# Install vim bundles
-$DOTHOME/vim/install.sh 2>&1
+# Install neovim config and plugins
+$DOTHOME/nvim/install.sh 2>&1

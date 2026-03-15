@@ -2,6 +2,6 @@
 for topic_folder ($DOTHOME/*) if [ -d $topic_folder ]; then  fpath=($topic_folder $fpath); fi;
 
 fpath=(
-  /usr/local/share/zsh/site-functions
+  $(brew --prefix)/share/zsh/site-functions
   $fpath
 )

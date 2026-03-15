@@ -40,8 +40,9 @@ cdpath=(. ~ ~/src $SOURCE_DIR)
 
 # chruby!
 # osx location
-[[ ! -a $(brew --prefix)/opt/chruby/share/chruby/chruby.sh ]] || source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
-[[ ! -a $(brew --prefix)/chruby/share/chruby/auto.sh ]] || source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
+BREW_PREFIX=$(brew --prefix)
+[[ ! -a $BREW_PREFIX/opt/chruby/share/chruby/chruby.sh ]] || source $BREW_PREFIX/opt/chruby/share/chruby/chruby.sh
+[[ ! -a $BREW_PREFIX/opt/chruby/share/chruby/auto.sh ]] || source $BREW_PREFIX/opt/chruby/share/chruby/auto.sh
 # ubuntu location
 [[ ! -a /usr/local/share/chruby/chruby.sh ]] || source /usr/local/share/chruby/chruby.sh
 [[ ! -a /usr/local/share/chruby/auto.sh ]] || source /usr/local/share/chruby/auto.sh
@@ -49,8 +50,8 @@ cdpath=(. ~ ~/src $SOURCE_DIR)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # gem_home
-if [[ -a /usr/local/opt/gem_home/share/gem_home/gem_home.sh ]]; then
-  source /usr/local/opt/gem_home/share/gem_home/gem_home.sh
+if [[ -a $BREW_PREFIX/opt/gem_home/share/gem_home/gem_home.sh ]]; then
+  source $BREW_PREFIX/opt/gem_home/share/gem_home/gem_home.sh
 
   # Automatically set local Gem Home directory
   # when entering a directory that contains a Gemfile.

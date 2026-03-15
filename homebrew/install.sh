@@ -10,6 +10,11 @@ if test ! $(which brew)
 then
   echo "  Installing Homebrew for you."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" > /tmp/homebrew-install.log
+
+  # Add Homebrew to PATH for the rest of this session (Apple Silicon)
+  if [ -f /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
 fi
 
 brew update

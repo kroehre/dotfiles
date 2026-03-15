@@ -1,16 +1,6 @@
 # Some useful aliases
 # vi:filetype=sh:
 
-hitch() {
-  command hitch "$@"
-  if [[ -s "$HOME/.hitch_export_authors" ]]; then
-    source "$HOME/.hitch_export_authors"
-  fi
-}
-alias unhitch='hitch -u'
-
-alias cukill='pkill -9 -if webkit_server; pkill -9 -if cucumber'
-
 alias h='history'
 alias l="ls -lah"
 alias ls="ls -FG"

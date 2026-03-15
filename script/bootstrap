@@ -149,3 +149,11 @@ fi
 
 echo
 echo '  All installed!'
+echo
+echo '  The following settings must be configured manually in System Settings:'
+echo ''
+echo '  - System Settings > General > Startup Disk > Restart automatically if the computer freezes'
+echo '  - System Settings > Keyboard > Adjust keyboard brightness in low light'
+echo '  - System Settings > Keyboard > Turn keyboard backlight off after inactivity'
+echo '  - System Settings > Lock Screen > Require password after screen saver begins or display is turned off'
+echo ''

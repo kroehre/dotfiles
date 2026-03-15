@@ -1,15 +1,6 @@
 # ~/aliases.zsh
 # vim:set ft=sh sw=2 sts=2:
 
-git() {
-  [ -f "$HOME/.hitch_export_authors" ] && . "$HOME/.hitch_export_authors"
-  if command -v hub >/dev/null; then
-    command hub "$@"
-  else
-    command git "$@"
-  fi
-}
-
 # Show git commit authorship totals. Options are forwarded to git log
 #
 # Usage:

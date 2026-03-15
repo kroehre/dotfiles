@@ -6,10 +6,10 @@ then
   brew install chruby > /tmp/chruby_install.log
 fi
 
-if test ! $(which gem_home)
-then
+GEM_HOME_DIR="$HOME/.gem_home"
+if [ ! -d "$GEM_HOME_DIR" ]; then
   echo "  Installing gem_home for you."
-  brew install --HEAD https://raw.github.com/postmodern/gem_home/master/homebrew/gem_home.rb > /tmp/gem_home_install.log
+  git clone https://github.com/postmodern/gem_home.git "$GEM_HOME_DIR" > /tmp/gem_home_install.log
 fi
 
 if test ! $(which ruby-install)

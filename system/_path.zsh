@@ -1,4 +1,4 @@
-for dir in /usr/local/bin "$DOTHOME/bin" .git/safe/../../bin .git/bin; do
+for dir in /opt/homebrew/bin /usr/local/bin "$DOTHOME/bin" .git/safe/../../bin .git/bin; do
   case "$PATH:" in
     *:"$dir":*) PATH="`echo "$PATH"|sed -e "s#:$dir##"`" ;;
   esac
@@ -8,7 +8,7 @@ for dir in /usr/local/bin "$DOTHOME/bin" .git/safe/../../bin .git/bin; do
   esac
 done
 
-for dir in /usr/local/sbin /opt/local/sbin /usr/X11/bin; do
+for dir in /opt/homebrew/sbin /usr/local/sbin /opt/local/sbin /usr/X11/bin; do
   case ":$PATH:" in
     *:"$dir":*) ;;
     *) [ ! -d "$dir" ] || PATH="$PATH:$dir" ;;

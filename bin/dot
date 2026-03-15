@@ -13,8 +13,8 @@ case $DISTRO in
     sudo apt-get -y -q upgrade
     ;;
   'Darwin')
-    # Set OS X defaults
-    sh $DOTHOME/osx/set-defaults.sh
+    # Set macOS defaults
+    sh $DOTHOME/macos/set-defaults.sh
     # Install/upgrade homebrew packages
     sh $DOTHOME/homebrew/install.sh 2>&1
     ;;

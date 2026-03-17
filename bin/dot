@@ -21,6 +21,8 @@ case $DISTRO in
     sh $DOTHOME/ruby/install.sh 2>&1
     # Install Ghostty config
     sh $DOTHOME/ghostty/install.sh 2>&1
+    # Install Claude Code and merge settings
+    sh $DOTHOME/claude/install.sh 2>&1
     ;;
   *)
     echo "Good luck with that"

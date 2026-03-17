@@ -1,15 +1,36 @@
 mux() {
-  local name cols
+  local name cols claude=0
+
+  while [[ "$1" == -* ]]; do
+    case "$1" in
+      -c) claude=1; shift ;;
+      *) shift ;;
+    esac
+  done
+
   if [ -n "$1" ]; then
     cd $1
   fi
+
   name="$(basename $PWD | sed -e 's/\./-/g')"
   cols="$(tput cols)"
-  if ! $(tmux has-session -t $name &>/dev/null); then
-    tmux new-session -d -n code -s $name -x${cols-150} -y50 && \
-      tmux new-window -a -d -n tests -t $name:0 \; \
-      new-window -a -d -n server -t $name:1 \; \
-      select-layout -t $name main-vertical &>/dev/null
+
+  if (( claude )); then
+    if ! tmux has-session -t "claude-$name" &>/dev/null; then
+      tmux new-session -d -s "claude-$name" -x${cols:-150} -y50 "claude"
+    fi
+    if ! tmux has-session -t $name &>/dev/null; then
+      tmux new-session -d -n tests -s $name -x${cols:-150} -y50 && \
+        tmux new-window -a -d -n server -t $name:0
+    fi
+  else
+    if ! tmux has-session -t $name &>/dev/null; then
+      tmux new-session -d -n code -s $name -x${cols:-150} -y50 && \
+        tmux new-window -a -d -n tests -t $name:0 \; \
+        new-window -a -d -n server -t $name:1 \; \
+        select-layout -t $name main-vertical &>/dev/null
+    fi
   fi
+
   tmux attach-session -t $name
 }

@@ -61,4 +61,13 @@ set -g status-left '#[fg=colour235,bg=colour76,bold] #S '
 # bind -n C-l run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)vim$' && tmux send-keys C-l) || tmux select-pane -R"
 # bind -n C-\ run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)vim$' && tmux send-keys 'C-\\') || tmux select-pane -l"
 
+# Claude Code: popup overlay (Ctrl-z Ctrl-c)
+bind C-c display-popup -w80% -h80% -E \
+  "tmux attach-session -t claude-#{session_name} 2>/dev/null || tmux new-session -s claude-#{session_name} claude"
+
+# Claude Code: fullscreen toggle (Ctrl-z Ctrl-f)
+bind C-f if-shell -F '#{m:claude-*,#{session_name}}' \
+  'switch-client -l' \
+  'switch-client -t claude-#{session_name}'
+
 source-file -q ~/.tmux.conf.local

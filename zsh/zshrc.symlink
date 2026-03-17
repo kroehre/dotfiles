@@ -53,6 +53,15 @@ BREW_PREFIX=$(brew --prefix)
 [[ ! -a /usr/local/share/chruby/chruby.sh ]] || source /usr/local/share/chruby/chruby.sh
 [[ ! -a /usr/local/share/chruby/auto.sh ]] || source /usr/local/share/chruby/auto.sh
 
+# Skip chruby auto-switching in dockerized projects
+if (( $+functions[chruby_auto] )); then
+  eval "_original_$(functions chruby_auto)"
+  function chruby_auto() {
+    [[ -f "$PWD/Dockerfile" || -f "$PWD/docker-compose.yml" ]] && return
+    _original_chruby_auto
+  }
+fi
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # gem_home

@@ -2,7 +2,7 @@
 #
 # Claude Code
 #
-# Installs Claude Code and merges managed settings into ~/.claude/settings.json.
+# Installs Claude Code and merges managed settings into user config files.
 
 DOTFILES_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
@@ -15,15 +15,19 @@ fi
 # Ensure ~/.claude exists
 mkdir -p "$HOME/.claude"
 
-# Merge dotfiles-managed settings into user settings
-MANAGED="$DOTFILES_ROOT/claude/settings.json"
-TARGET="$HOME/.claude/settings.json"
+# Deep-merge a dotfiles-managed JSON file into a target.
+# Dotfiles keys take precedence; user-only keys are preserved.
+merge_json() {
+  local managed="$1" target="$2" label="$3"
 
-if [ ! -f "$TARGET" ]; then
-  cp "$MANAGED" "$TARGET"
-  echo "  Created Claude Code settings"
-else
-  # Deep merge: dotfiles settings take precedence, user-only keys preserved
-  jq -s '.[0] * .[1]' "$TARGET" "$MANAGED" > "$TARGET.tmp" && mv "$TARGET.tmp" "$TARGET"
-  echo "  Merged Claude Code settings"
-fi
+  if [ ! -f "$target" ]; then
+    cp "$managed" "$target"
+    echo "  Created $label"
+  else
+    jq -s '.[0] * .[1]' "$target" "$managed" > "$target.tmp" && mv "$target.tmp" "$target"
+    echo "  Merged $label"
+  fi
+}
+
+merge_json "$DOTFILES_ROOT/claude/settings.json" "$HOME/.claude/settings.json" "Claude Code settings"
+merge_json "$DOTFILES_ROOT/claude/claude.json" "$HOME/.claude.json" "Claude Code user config"

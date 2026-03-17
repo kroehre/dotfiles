@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "tmux": {
+      "command": "npx",
+      "args": ["-y", "tmux-mcp"],
+      "env": {
+        "TMUX": ""
+      }
+    }
+  }
+}

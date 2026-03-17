@@ -21,7 +21,9 @@ TARGET="$HOME/.claude/settings.json"
 
 if [ ! -f "$TARGET" ]; then
   cp "$MANAGED" "$TARGET"
+  echo "  Created Claude Code settings"
 else
   # Deep merge: dotfiles settings take precedence, user-only keys preserved
   jq -s '.[0] * .[1]' "$TARGET" "$MANAGED" > "$TARGET.tmp" && mv "$TARGET.tmp" "$TARGET"
+  echo "  Merged Claude Code settings"
 fi

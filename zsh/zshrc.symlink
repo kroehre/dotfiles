@@ -35,8 +35,14 @@ unset config_files
 # I want to use [ and ] damn it!
 unsetopt nomatch
 
+# auto-discover org directories under SOURCE_DIR for mux and cdpath
+muxable_paths=($SOURCE_DIR/*(/N))
+
 # set cd autocompletion to commonly visited directories
-cdpath=(. ~ ~/src $SOURCE_DIR)
+cdpath=("${muxable_paths[@]}" . ~ $SOURCE_DIR)
+
+# mux completion: complete directories under SOURCE_DIR and all org dirs
+compctl -/ -S '' -W "($SOURCE_DIR ${muxable_paths[*]})" mux
 
 # chruby!
 # macOS (Homebrew) location

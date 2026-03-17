@@ -61,4 +61,4 @@ set -g status-left '#[fg=colour235,bg=colour76,bold] #S '
 # bind -n C-l run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)vim$' && tmux send-keys C-l) || tmux select-pane -R"
 # bind -n C-\ run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)vim$' && tmux send-keys 'C-\\') || tmux select-pane -l"
 
-source-file ~/.tmux.conf.local
+source-file -q ~/.tmux.conf.local

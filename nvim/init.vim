@@ -1,6 +1,3 @@
-lua vim.g.loaded_netrw = 1
-lua vim.g.loaded_netrwPlugin = 1
-
 call plug#begin()
 Plug 'dense-analysis/ale'
 Plug 'duff/vim-bufonly'
@@ -40,7 +37,9 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vividchalk'
 Plug 'tpope/vim-projectionist'
 Plug 'vim-scripts/bufkill.vim'
-Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v3.x' }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'MunifTanjim/nui.nvim'
 Plug 'dracula/vim'
 Plug 'majutsushi/tagbar'
 Plug 'elixir-editors/vim-elixir'
@@ -86,7 +85,7 @@ colorscheme dracula
 " Fix highlight color in Vim 8 (High Sierra)
 hi! link QuickFixLine Search
 
-map <C-N> :NvimTreeFindFileToggle<CR>
+map <C-N> :Neotree toggle reveal<CR>
 map <C-T> :TagbarToggle<CR>
 
 set backupdir=~/.vimbackup,./.backup,~/tmp,.
@@ -302,26 +301,54 @@ augroup organization
 augroup END
 
 lua << EOF
-local ok, nvimtree = pcall(require, 'nvim-tree')
+local ok, neotree = pcall(require, 'neo-tree')
 if ok then
-  local DiffStats = require('diff-stats-decorator')
+  local diff_stats = require('diff-stats-component')
 
-  nvimtree.setup({
-    git = {
-      enable = true,
-    },
-    renderer = {
-      highlight_git = 'name',
-      icons = { show = { git = false } },
-      decorators = {
-        'Git', 'Open', 'Hidden', 'Modified', 'Bookmark', 'Diagnostics', 'Copied',
-        DiffStats,
-        'Cut',
+  local file_renderer = {
+    { 'indent' },
+    { 'icon' },
+    {
+      'container',
+      width = '100%',
+      content = {
+        { 'name', zindex = 10 },
+        { 'git_status', zindex = 20 },
+        { 'diff_stats', zindex = 15 },
       },
     },
-    -- Auto-refresh via built-in filesystem watchers (libuv)
-    filesystem_watchers = {
-      enable = true,
+  }
+
+  neotree.setup({
+    enable_git_status = true,
+    event_handlers = {
+      {
+        event = 'neo_tree_window_after_open',
+        handler = function(args)
+          vim.defer_fn(function()
+            local state = require('neo-tree.sources.manager').get_state(args.source or 'filesystem')
+            if state and state.tree then
+              require('neo-tree.sources.common.commands').expand_all_nodes(state)
+            end
+          end, 200)
+        end,
+      },
+    },
+    filesystem = {
+      components = {
+        diff_stats = diff_stats,
+      },
+      renderers = {
+        file = file_renderer,
+      },
+    },
+    git_status = {
+      components = {
+        diff_stats = diff_stats,
+      },
+      renderers = {
+        file = file_renderer,
+      },
     },
   })
 end

@@ -29,7 +29,4 @@ for b in ${BREWS[@]}; do
   fi
 done
 
-brew upgrade
-brew cleanup
-
 exit 0

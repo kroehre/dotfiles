@@ -41,6 +41,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'dracula/vim'
 Plug 'majutsushi/tagbar'
 Plug 'elixir-editors/vim-elixir'
+Plug 'sindrets/diffview.nvim'
+Plug 'coder/claudecode.nvim'
 call plug#end()
 
 syntax on
@@ -293,7 +295,19 @@ augroup organization
   autocmd User Rails nnoremap <buffer> <D-r> :<C-U>Rake<CR>
   autocmd User Rails nnoremap <buffer> <D-R> :<C-U>.Rake<CR>
   autocmd User Fugitive command! -bang -bar -buffer -nargs=* Gpr :Git<bang> pull --rebase <args>
+
+  " When switching from the Claude tmux pane back to neovim, check if files
+  " changed on disk and reload them. Requires focus-events on in tmux.conf
+  " and works together with the existing 'set autoread' above.
+  autocmd FocusGained,BufEnter * checktime
 augroup END
+
+lua << EOF
+-- WebSocket bridge to Claude Code. Terminal disabled since Claude runs in a
+-- separate tmux pane, not inside neovim.
+local ok2, claudecode = pcall(require, 'claudecode')
+if ok2 then claudecode.setup({ terminal = { enabled = false } }) end
+EOF
 
 " sourcing .vimrc.local should ALWAYS BE LAST
 if filereadable(expand('~/.vimrc.local'))

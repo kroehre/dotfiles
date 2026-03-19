@@ -27,14 +27,15 @@ mux() {
   if (( claude )); then
     # Create inner project session on default server
     if ! tmux has-session -t "$name" 2>/dev/null; then
-      tmux new-session -d -n tests -s "$name" -x${cols:-150} -y50
-      tmux new-window -a -d -n server -t "$name:0"
+      tmux new-session -d -n code -s "$name" -x${cols:-150} -y50
+      tmux new-window -a -d -n tests -t "$name:0"
+      tmux new-window -a -d -n server -t "$name:1"
     fi
 
     # Create outer container on separate socket
     if ! tmux -L mux has-session -t "$name" 2>/dev/null; then
-      local prompt_file="$HOME/.claude/tmux-prompt-$name.md"
-      sed "s/\$SESSION/$name/g" "$DOTHOME/claude/tmux-pairing.md" > "$prompt_file"
+      local prompt_file="$HOME/.claude/mux-prompt-$name.md"
+      sed "s/\$SESSION/$name/g" "$DOTHOME/claude/mux-prompt.md" > "$prompt_file"
       tmux -L mux -f "$DOTHOME/tmux/claude-container.conf" \
         new-session -d -s "$name" -x${cols:-150} -y50 \
         "$DOTHOME/claude/mux-claude '$prompt_file'"

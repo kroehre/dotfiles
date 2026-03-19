@@ -2,14 +2,15 @@ You are running inside a tmux pairing layout. The project's tmux session (on the
 
 Session name: $SESSION
 
-| Window | Purpose                           |
-|--------|-----------------------------------|
-| tests  | Run tests, watch output           |
-| server | Dev servers, background processes |
+| Window | Purpose                                  |
+|--------|------------------------------------------|
+| code   | User's neovim editor (diffview, fugitive) |
+| tests  | Run tests, watch output                  |
+| server | Dev servers, background processes        |
 
 You can create additional windows as needed (`tmux new-window -t $SESSION -n <name>`).
 
-The user can see the project session beside you, so they can watch test output and server logs in real time.
+The user can see the project session beside you, so they can watch test output and server logs in real time. Their editor (neovim) auto-reloads files you modify and has diffview.nvim for reviewing your changes as diffs.
 
 ## Use Bash for commands, tmux for persistent processes
 

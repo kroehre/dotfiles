@@ -32,12 +32,21 @@ br = branch
         excludesfile = ~/.gitignore
         editor = nvim
         whitespace = warn
+        pager = delta
+[delta]
+        navigate = true
+        side-by-side = true
+        line-numbers = true
+[diff]
+        colorMoved = default
 [help]
         autocorrect = 10
 [interactive]
+        diffFilter = delta --color-only
         singleKey = true
 [merge]
         summary = true
+        conflictstyle = zdiff3
 [push]
         default = simple
 [rebase]

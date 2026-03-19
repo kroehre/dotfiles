@@ -1,0 +1,23 @@
+#!/bin/zsh
+# Runs Claude in a loop with a menu on exit.
+# Used by `mux -c` as the outer container pane command.
+
+prompt_file="$1"
+claude_args=(--allowedTools 'mcp__tmux__*' 'Bash(tmux:*)' --append-system-prompt "$(cat "$prompt_file")")
+
+claude "${claude_args[@]}"
+
+while true; do
+  echo
+  echo "[c] Continue last session"
+  echo "[n] New session"
+  echo "[q] Quit"
+  echo
+  read -sk1 "choice?"
+  case "$choice" in
+    c) claude --continue "${claude_args[@]}" ;;
+    n) claude "${claude_args[@]}" ;;
+    q) break ;;
+    *) echo "Invalid choice" ;;
+  esac
+done

@@ -37,7 +37,7 @@ mux() {
       sed "s/\$SESSION/$name/g" "$DOTHOME/claude/tmux-pairing.md" > "$prompt_file"
       tmux -L mux -f "$DOTHOME/tmux/claude-container.conf" \
         new-session -d -s "$name" -x${cols:-150} -y50 \
-        "while true; do claude --allowedTools 'mcp__tmux__*' 'Bash(tmux:*)' --append-system-prompt \"\$(cat '$prompt_file')\"; echo; echo 'Claude exited. Press Enter to restart or Ctrl-C to quit.'; read || break; done"
+        "$DOTHOME/claude/mux-claude '$prompt_file'"
       tmux -L mux split-window -t "$name" -h \
         "TMUX= tmux attach-session -t '$name'"
       tmux -L mux select-pane -t "$name:0.0"

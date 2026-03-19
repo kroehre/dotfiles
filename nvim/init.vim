@@ -329,7 +329,13 @@ end
 -- WebSocket bridge to Claude Code. Terminal disabled since Claude runs in a
 -- separate tmux pane, not inside neovim.
 local ok2, claudecode = pcall(require, 'claudecode')
-if ok2 then claudecode.setup({ terminal = { provider = 'none' } }) end
+if ok2 then claudecode.setup({
+  terminal = { provider = 'none' },
+  diff_opts = {
+    open_in_new_tab = true,
+    layout = 'horizontal',
+  },
+}) end
 EOF
 
 " sourcing .vimrc.local should ALWAYS BE LAST

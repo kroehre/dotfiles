@@ -28,7 +28,7 @@ mux() {
     # Create inner project session on default server
     if ! tmux has-session -t "$name" 2>/dev/null; then
       tmux new-session -d -n code -s "$name" -x${cols:-150} -y50 \
-        "nvim -c DiffviewOpen; exec $SHELL"
+        "nvim -c NvimTreeOpen -c 'lua local api = require(\"nvim-tree.api\"); api.filter.git.clean.toggle(); vim.defer_fn(function() api.tree.expand_all() end, 200)'; exec $SHELL"
       tmux new-window -a -d -n tests -t "$name:0"
       tmux new-window -a -d -n server -t "$name:1"
     fi

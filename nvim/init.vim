@@ -1,3 +1,6 @@
+lua vim.g.loaded_netrw = 1
+lua vim.g.loaded_netrwPlugin = 1
+
 call plug#begin()
 Plug 'dense-analysis/ale'
 Plug 'duff/vim-bufonly'
@@ -37,12 +40,11 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vividchalk'
 Plug 'tpope/vim-projectionist'
 Plug 'vim-scripts/bufkill.vim'
-Plug 'scrooloose/nerdtree'
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'dracula/vim'
 Plug 'majutsushi/tagbar'
 Plug 'elixir-editors/vim-elixir'
 Plug 'nvim-tree/nvim-web-devicons'
-Plug 'sindrets/diffview.nvim'
 Plug 'coder/claudecode.nvim'
 call plug#end()
 
@@ -84,7 +86,7 @@ colorscheme dracula
 " Fix highlight color in Vim 8 (High Sierra)
 hi! link QuickFixLine Search
 
-map <C-N> :NERDTreeFind<CR>
+map <C-N> :NvimTreeFindFileToggle<CR>
 map <C-T> :TagbarToggle<CR>
 
 set backupdir=~/.vimbackup,./.backup,~/tmp,.
@@ -181,10 +183,6 @@ let g:ruby_minlines = 500
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
 
-let g:NERDCreateDefaultMappings = 0
-let g:NERDSpaceDelims = 1
-let g:NERDShutUp = 1
-let g:netrw_list_hide = '^\.,^tags$'
 let g:VCSCommandDisableMappings = 1
 
 let g:surround_{char2nr('s')} = " \r"
@@ -304,10 +302,34 @@ augroup organization
 augroup END
 
 lua << EOF
+local ok, nvimtree = pcall(require, 'nvim-tree')
+if ok then
+  local DiffStats = require('diff-stats-decorator')
+
+  nvimtree.setup({
+    git = {
+      enable = true,
+    },
+    renderer = {
+      highlight_git = 'name',
+      icons = { show = { git = false } },
+      decorators = {
+        'Git', 'Open', 'Hidden', 'Modified', 'Bookmark', 'Diagnostics', 'Copied',
+        DiffStats,
+        'Cut',
+      },
+    },
+    -- Auto-refresh via built-in filesystem watchers (libuv)
+    filesystem_watchers = {
+      enable = true,
+    },
+  })
+end
+
 -- WebSocket bridge to Claude Code. Terminal disabled since Claude runs in a
 -- separate tmux pane, not inside neovim.
 local ok2, claudecode = pcall(require, 'claudecode')
-if ok2 then claudecode.setup({ terminal = { enabled = false } }) end
+if ok2 then claudecode.setup({ terminal = { provider = 'none' } }) end
 EOF
 
 " sourcing .vimrc.local should ALWAYS BE LAST

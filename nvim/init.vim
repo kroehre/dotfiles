@@ -41,6 +41,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'dracula/vim'
 Plug 'majutsushi/tagbar'
 Plug 'elixir-editors/vim-elixir'
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'sindrets/diffview.nvim'
 Plug 'coder/claudecode.nvim'
 call plug#end()

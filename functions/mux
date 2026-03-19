@@ -27,7 +27,8 @@ mux() {
   if (( claude )); then
     # Create inner project session on default server
     if ! tmux has-session -t "$name" 2>/dev/null; then
-      tmux new-session -d -n code -s "$name" -x${cols:-150} -y50
+      tmux new-session -d -n code -s "$name" -x${cols:-150} -y50 \
+        "nvim -c DiffviewOpen; exec $SHELL"
       tmux new-window -a -d -n tests -t "$name:0"
       tmux new-window -a -d -n server -t "$name:1"
     fi

@@ -20,7 +20,7 @@ fi
 brew update
 
 # Install homebrew 'essential' packages
-BREWS=(ack universal-ctags chruby gh ghostty git-delta jq markdown neovim redis ruby-install the_silver_searcher tmux wget)
+BREWS=(ack universal-ctags chruby font-iosevka-nerd-font gh ghostty git-delta jq markdown neovim redis ruby-install the_silver_searcher tmux wget)
 for b in ${BREWS[@]}; do
   brew list $b > /dev/null 2>&1
   if [[ "$?" -eq "1" ]]; then

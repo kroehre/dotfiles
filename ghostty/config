@@ -1,1 +1,2 @@
+font-family = IosevkaNerdFont
 shell-integration-features = cursor,sudo,title,ssh-terminfo,ssh-env

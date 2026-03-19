@@ -37,7 +37,8 @@ function DiffStats:icons(node)
   local s = stats_cache[rel]
   if not s then
     -- Untracked files
-    if node.git_status and node.git_status:match("%?") then
+    local gs = node.git_status and node.git_status.file
+    if type(gs) == "string" and gs:match("%?") then
       return { { str = " +new", hl = { "DiffStatsAdd" } } }
     end
     return

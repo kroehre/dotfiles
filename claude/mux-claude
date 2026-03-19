@@ -18,7 +18,7 @@ while true; do
     c) claude --continue "${claude_args[@]}" ;;
     n) claude "${claude_args[@]}" ;;
     q) name="$(tmux -L mux display-message -p '#S')"
-       tmux kill-session -t "$name" 2>/dev/null
+       tmux -L default kill-session -t "$name" 2>/dev/null
        tmux -L mux kill-session -t "$name" 2>/dev/null
        exit ;;
     *) echo "Invalid choice" ;;

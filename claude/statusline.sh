@@ -45,26 +45,19 @@ if git_branch=$(git -C "$cwd" rev-parse --abbrev-ref HEAD 2>/dev/null); then
   fi
 fi
 
-# --- shorten cwd: last 2 components ---
-display_cwd="${cwd/#$HOME/~}"
-if [[ $(echo "$display_cwd" | tr '/' '\n' | wc -l) -gt 4 ]]; then
-  display_cwd="…/$(echo "$display_cwd" | rev | cut -d'/' -f1-2 | rev)"
-fi
-
 # --- data from JSON ---
-ctx_pct=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
+ctx_pct=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
 rate_pct=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // 0' | cut -d. -f1)
-cost=$(echo "$input" | jq -r '.cost.total_cost_usd // 0' | xargs printf '$%.0f')
 
 # --- assemble ---
-printf " %b%s%b" "$cyan" "$display_cwd" "$reset"
+printf " "
+bar "$ctx_pct" 8 "C "
+if [ "$rate_pct" -gt 0 ] 2>/dev/null; then
+  printf " "
+  bar "$rate_pct" 8 "R "
+fi
 if [ -n "$branch" ]; then
   printf " %b %b%s%b" "$sep" "$yellow" "$branch" "$reset"
   [ -n "$dirty" ] && printf "%b%s%b" "$red" "$dirty" "$reset"
 fi
-printf " %b " "$sep"
-bar "$ctx_pct" 8 "C "
-printf " "
-bar "$rate_pct" 8 "R "
-printf " %b%s%b" "$dim" "$cost" "$reset"
 printf "\n"

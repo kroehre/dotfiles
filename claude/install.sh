@@ -6,10 +6,10 @@
 
 DOTFILES_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-# Install Claude Code via Homebrew cask
-if ! brew list --cask claude-code > /dev/null 2>&1; then
+# Install Claude Code via native installer
+if ! command -v claude > /dev/null 2>&1; then
   echo "  Installing Claude Code"
-  brew install --cask claude-code
+  curl -fsSL https://claude.ai/install.sh | bash
 fi
 
 # Ensure ~/.claude exists

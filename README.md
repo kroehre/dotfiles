@@ -23,7 +23,7 @@ up to date.
 - **Terminal:** ghostty, tmux with vi-mode keys and `Ctrl-z` prefix
 - **Ruby:** chruby + ruby-install, gem_home for per-project gems
 - **Git:** aliases (`gst`, `gpr`, `gap`, etc.), GitHub CLI
-- **Claude Code:** tmux MCP integration, nested container layout via `mux -c`
+- **Agent pairing:** Claude Code or Codex in a nested tmux container via `mux --claude` or `mux --codex`
 - **macOS:** sane system defaults applied automatically
 
 ## conventions
@@ -32,6 +32,14 @@ up to date.
 - **`*.zsh`** — Auto-sourced by zshrc. `path.zsh` loads first, `completion.zsh` last
 - **`install.sh`** — Per-topic install scripts, run by `script/install`
 - **`*.local`** — Machine-specific overrides (gitignored, never automated)
+
+## commands
+
+- `mux [dir]` — Open the project tmux session
+- `mux --claude [dir]` — Pair with Claude Code in the nested agent layout
+- `mux --codex [dir]` — Pair with Codex in the nested agent layout
+- `mux -K [dir]` — Kill both project and agent-container sessions
+- `script/test` — Run mux behavior checks
 
 ## local overrides
 

@@ -1,11 +1,15 @@
 #!/bin/zsh
-# Runs Claude in a loop with a menu on exit.
-# Used by `mux --claude` as the outer container pane command.
+# Runs Codex in a loop with a menu on exit.
+# Used by `mux --codex` as the outer container pane command.
 
 prompt_file="$1"
-claude_args=(--allowedTools 'mcp__tmux__*' 'Bash(tmux:*)' --append-system-prompt "$(cat "$prompt_file")")
+codex_args=(
+  -c developer_instructions="$(cat "$prompt_file")"
+  --ask-for-approval never
+  --sandbox workspace-write
+)
 
-claude "${claude_args[@]}"
+codex "${codex_args[@]}"
 
 while true; do
   echo
@@ -15,8 +19,8 @@ while true; do
   echo
   read -sk1 "choice?"
   case "$choice" in
-    c) claude --continue "${claude_args[@]}" ;;
-    n) claude "${claude_args[@]}" ;;
+    c) codex resume --last "${codex_args[@]}" ;;
+    n) codex "${codex_args[@]}" ;;
     q) name="$(tmux -L mux display-message -p '#S')"
        tmux -L default kill-session -t "$name" 2>/dev/null
        tmux -L mux kill-session -t "$name" 2>/dev/null

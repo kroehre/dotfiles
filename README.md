@@ -39,7 +39,6 @@ up to date.
 - `mux --claude [dir]` — Pair with Claude Code in the nested agent layout
 - `mux --codex [dir]` — Pair with Codex in the nested agent layout
 - `mux -K [dir]` — Kill both project and agent-container sessions
-- `script/test` — Run mux behavior checks
 
 ## local overrides
 

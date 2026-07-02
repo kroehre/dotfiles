@@ -1,0 +1,8 @@
+# mux-scoped lazygit config. Loaded via LG_CONFIG_FILE from the mux "changes"
+# window (see functions/mux), which avoids macOS config-dir ambiguity.
+customCommands:
+  - key: "P"
+    context: "files"
+    description: "Review changes in plannotator, hand feedback to the agent"
+    command: "$DOTHOME/bin/mux-review"
+    output: terminal

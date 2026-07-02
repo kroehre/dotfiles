@@ -1,0 +1,24 @@
+#!/bin/zsh
+# mux-track-worktree — record the agent's current git worktree so the mux
+# "changes" window (and tests/server) can follow it. No-op outside a mux
+# session (MUX_SESSION unset).
+#
+# Modes:
+#   --hook : read a Claude Code hook JSON payload from stdin; use its .cwd
+#   (bare) : use $1 if given, else $PWD  (for agents invoked directly, e.g. codex)
+
+[ -n "$MUX_SESSION" ] || exit 0
+
+if [ "$1" = "--hook" ]; then
+  cwd="$(jq -r '.cwd // empty' 2>/dev/null)"
+else
+  cwd="${1:-$PWD}"
+fi
+[ -n "$cwd" ] || exit 0
+
+root="$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null)"
+[ -n "$root" ] || exit 0
+
+dir="$HOME/.mux"
+mkdir -p "$dir"
+print -r -- "$root" > "$dir/${MUX_SESSION}.worktree"

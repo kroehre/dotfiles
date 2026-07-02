@@ -50,10 +50,11 @@ mux() {
 
     # Create inner project session on default server
     if ! tmux has-session -t "$name" 2>/dev/null; then
-      tmux new-session -d -n code -s "$name" -x${cols:-150} -y50 \
-        "nvim -c 'Neotree show source=git_status'; exec $SHELL"
-      tmux new-window -a -d -n tests -t "$name:0"
-      tmux new-window -a -d -n server -t "$name:1"
+      tmux new-session -d -n changes -s "$name" -x${cols:-150} -y50 \
+        "LG_CONFIG_FILE='$DOTHOME/lazygit/config.yml' lazygit; exec $SHELL"
+      tmux new-window -a -d -n codeburn -t "$name:0" "codeburn; exec $SHELL"
+      tmux new-window -a -d -n tests -t "$name:1"
+      tmux new-window -a -d -n server -t "$name:2"
     fi
 
     # Create outer container on separate socket
@@ -63,7 +64,7 @@ mux() {
       tmux -L mux -f "$DOTHOME/tmux/agent-container.conf" \
         new-session -d -s "$name" -x${cols:-150} -y50 \
         "$wrapper '$prompt_file'"
-      tmux -L mux split-window -t "$name" -h \
+      tmux -L mux split-window -t "$name" -h -l 30% \
         "TMUX= tmux attach-session -t '$name'"
       tmux -L mux select-pane -t "$name:0.0"
     fi

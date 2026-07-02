@@ -1,0 +1,30 @@
+#!/bin/zsh
+# mux-review — open plannotator's PR-style review for the current changes, then
+# hand the resulting feedback to the agent running in the outer mux container
+# pane. Bound to the 'P' key in the mux "changes" (lazygit) window.
+#
+# plannotator prints the agent-facing prompt (inline feedback, or a short
+# "approved" acknowledgment) to stdout on approve; progress/URL go to stderr.
+# On cancel/close it exits non-zero. Rule: forward on exit 0 with non-empty
+# output; otherwise send nothing.
+
+session="$(tmux display-message -p '#S' 2>/dev/null)"
+
+out="$(plannotator review)"
+rc=$?
+
+if [ $rc -ne 0 ] || [ -z "$out" ]; then
+  exit $rc
+fi
+
+base="$(mktemp "${TMPDIR:-/tmp}/mux-review.${session:-session}.XXXXXX")"
+tmpfile="$base.md"
+mv "$base" "$tmpfile" || exit 1
+print -r -- "$out" > "$tmpfile"
+
+if [ -n "$session" ] && tmux -L mux has-session -t "$session" 2>/dev/null; then
+  tmux -L mux send-keys -t "${session}:0.0" \
+    "I left review feedback — read $tmpfile and address it, then continue." Enter
+else
+  print -r -- "No agent pane found; review feedback saved to $tmpfile"
+fi

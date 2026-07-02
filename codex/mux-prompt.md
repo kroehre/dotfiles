@@ -15,7 +15,7 @@ The user can see the project session beside you: they watch changed files and
 diffs in lazygit, plus test output and server logs, in real time.
 
 When the user reviews your changes, you may receive a message like "read
-/tmp/mux-review-*.md and address it" — read that file and act on the inline
+/tmp/mux-review.*.md and address it" — read that file and act on the inline
 review feedback it contains.
 
 ## Use Bash for commands, tmux for persistent processes

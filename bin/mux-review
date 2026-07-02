@@ -10,6 +10,11 @@
 
 session="$(tmux display-message -p '#S' 2>/dev/null)"
 
+if ! command -v plannotator > /dev/null 2>&1; then
+  print -r -- "mux-review: plannotator not found on PATH" >&2
+  exit 127
+fi
+
 out="$(plannotator review)"
 rc=$?
 

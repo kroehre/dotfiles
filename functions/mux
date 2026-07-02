@@ -51,7 +51,7 @@ mux() {
     # Create inner project session on default server
     if ! tmux has-session -t "$name" 2>/dev/null; then
       tmux new-session -d -n changes -s "$name" -x${cols:-150} -y50 \
-        "LG_CONFIG_FILE='$DOTHOME/lazygit/config.yml' lazygit; exec $SHELL"
+        "export LG_CONFIG_FILE='$DOTHOME/lazygit/config.yml'; lazygit; exec $SHELL"
       tmux new-window -a -d -n codeburn -t "$name:0" "codeburn; exec $SHELL"
       tmux new-window -a -d -n tests -t "$name:1"
       tmux new-window -a -d -n server -t "$name:2"

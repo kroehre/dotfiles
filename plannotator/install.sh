@@ -19,7 +19,7 @@ mkdir -p "$CONFIG_DIR"
 [ -f "$CONFIG" ] || echo '{}' > "$CONFIG"
 
 tmp="$(mktemp "${TMPDIR:-/tmp}/plannotator-config.XXXXXX")"
-if jq '.diffOptions = (.diffOptions // {}) | .diffOptions.defaultDiffType = "branch"' \
+if jq '.diffOptions.defaultDiffType = "branch"' \
      "$CONFIG" > "$tmp" 2>/dev/null; then
   mv "$tmp" "$CONFIG"
   echo "  plannotator default diff type set to branch"

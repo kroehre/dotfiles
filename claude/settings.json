@@ -2,5 +2,17 @@
   "statusLine": {
     "type": "command",
     "command": "bash ~/.dotfiles/claude/statusline.sh"
+  },
+  "hooks": {
+    "CwdChanged": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$DOTHOME/bin/mux-track-worktree --hook"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -25,6 +25,8 @@ case $DISTRO in
     sh $DOTHOME/claude/install.sh 2>&1
     # Install Codex CLI and register tmux MCP
     sh $DOTHOME/codex/install.sh 2>&1
+    # Set plannotator default diff type
+    sh $DOTHOME/plannotator/install.sh 2>&1
     ;;
   *)
     echo "Good luck with that"

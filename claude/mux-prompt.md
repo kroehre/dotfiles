@@ -2,15 +2,25 @@ You are running inside a tmux pairing layout. The project's tmux session (on the
 
 Session name: $SESSION
 
-| Window | Purpose                                  |
-|--------|------------------------------------------|
-| code   | User's neovim editor                       |
-| tests  | Run tests, watch output                  |
-| server | Dev servers, background processes        |
+| Window   | Purpose                                             |
+|----------|-----------------------------------------------------|
+| changes  | lazygit — the user browses changed files and diffs  |
+| codeburn | codeburn dashboard (token/cost/activity)            |
+| tests    | Run tests, watch output                             |
+| server   | Dev servers, background processes                   |
 
 You can create additional windows as needed (`tmux new-window -t $SESSION -n <name>`).
 
-The user can see the project session beside you, so they can watch test output and server logs in real time. Their editor (neovim) auto-reloads files you modify and shows git diff stats for changed files.
+The user can see the project session beside you: they watch changed files and
+diffs in lazygit, plus test output and server logs, in real time.
+
+When the user reviews your changes, you may receive a message like "read
+/tmp/mux-review.*.md and address it" — read that file and act on the inline
+review feedback it contains.
+
+Whenever you create or switch into a git worktree, run `mux-track-worktree`
+from inside it (or `mux-track-worktree <worktree-path>`) so the changes view and
+the tests/server windows follow you into that worktree.
 
 ## Use Bash for commands, tmux for persistent processes
 

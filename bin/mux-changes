@@ -1,0 +1,54 @@
+#!/bin/zsh
+# mux-changes — run lazygit for the mux "changes" window, following the agent's
+# current git worktree (recorded by mux-track-worktree in ~/.mux/<session>.worktree).
+# On a worktree switch it relaunches lazygit in the new worktree (~1s poll) and
+# cd's the idle tests/server panes to match. User-quit of lazygit drops to a shell.
+
+session="$(tmux display-message -p '#S' 2>/dev/null)"
+launch_dir="$PWD"
+pointer="$HOME/.mux/${session}.worktree"
+lgcfg="$DOTHOME/lazygit/config.yml"
+self=$$   # this script's PID; lazygit runs as its direct child
+
+current_wt() {
+  local wt; wt="$(cat "$pointer" 2>/dev/null)"
+  if [ -n "$wt" ] && [ -d "$wt" ]; then print -r -- "$wt"; else print -r -- "$launch_dir"; fi
+}
+
+# cd the tests/server panes to $1, but only if they're sitting at a shell prompt
+sync_panes() {
+  local wt="$1" w cmd shell="${SHELL:t}"
+  for w in tests server; do
+    cmd="$(tmux display-message -p -t "$session:$w" '#{pane_current_command}' 2>/dev/null)" || continue
+    case "$cmd" in
+      "$shell"|-"$shell"|zsh|-zsh|bash|-bash|sh|-sh)
+        tmux send-keys -t "$session:$w" " cd ${(q)wt}" Enter 2>/dev/null ;;
+    esac
+  done
+}
+
+while true; do
+  wt="$(current_wt)"
+  cd "$wt" 2>/dev/null || cd "$launch_dir"
+  sync_panes "$wt"
+
+  # background watcher: kill the foreground lazygit (a direct child of this
+  # script, PID $self) as soon as the pointer moves off $wt. NB: inside the
+  # subshell $PPID is this script's *parent*, not the script — so we use the
+  # captured $self instead.
+  (
+    while :; do
+      sleep 1
+      [ "$(current_wt)" != "$wt" ] && { pkill -P $self -x lazygit 2>/dev/null; exit 0; }
+    done
+  ) &
+  watcher=$!
+
+  LG_CONFIG_FILE="$lgcfg" lazygit          # foreground
+
+  kill "$watcher" 2>/dev/null; wait "$watcher" 2>/dev/null
+
+  # If the pointer is unchanged, the user quit lazygit themselves -> give a shell.
+  # Otherwise the watcher killed it for a worktree switch -> loop relaunches.
+  [ "$(current_wt)" = "$wt" ] && exec $SHELL
+done

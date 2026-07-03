@@ -18,6 +18,10 @@ When the user reviews your changes, you may receive a message like "read
 /tmp/mux-review.*.md and address it" — read that file and act on the inline
 review feedback it contains.
 
+Whenever you create or switch into a git worktree, run `mux-track-worktree`
+from inside it (or `mux-track-worktree <worktree-path>`) so the changes view and
+the tests/server windows follow you into that worktree.
+
 ## Use Bash for commands, tmux for persistent processes
 
 **Default to running commands directly** (tests, builds, linters, one-off scripts). This captures output synchronously — no timing issues, no polling.
